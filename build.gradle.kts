@@ -12,8 +12,8 @@ plugins {
 
 apply(plugin = "io.spring.dependency-management")
 
-group = "org.example"
-version = "1.0-SNAPSHOT"
+group = "no.nav.pensjon.opptjening"
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
