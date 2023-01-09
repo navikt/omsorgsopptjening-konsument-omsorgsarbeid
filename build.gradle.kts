@@ -1,8 +1,16 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val springVersion = "3.0.0"
+val logbackEncoderVersion = "7.2"
+val testcontainersVersion = "1.17.6"
+
 plugins {
-    kotlin("jvm") version "1.7.10"
+    id("org.jetbrains.kotlin.jvm") version "1.8.0"
+    id("org.jetbrains.kotlin.plugin.spring") version "1.8.0"
+    id("org.springframework.boot") version "3.0.0"
 }
+
+apply(plugin = "io.spring.dependency-management")
 
 group = "org.example"
 version = "1.0-SNAPSHOT"
@@ -12,6 +20,7 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation(kotlin("test"))
 }
 
@@ -20,5 +29,19 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xjsr305=strict")
+        jvmTarget = "17"
+    }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+    testLogging {
+        events(
+            org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED,
+            org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED,
+            org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
+        )
+    }
 }
