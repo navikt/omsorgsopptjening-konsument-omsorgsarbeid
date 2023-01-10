@@ -1,13 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val springVersion = "3.0.0"
+val springVersion = "3.0.1"
 val logbackEncoderVersion = "7.2"
 val testcontainersVersion = "1.17.6"
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.8.0"
     id("org.jetbrains.kotlin.plugin.spring") version "1.8.0"
-    id("org.springframework.boot") version "3.0.0"
+    id("org.springframework.boot") version "3.0.1"
 }
 
 apply(plugin = "io.spring.dependency-management")
@@ -21,11 +21,10 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation ("org.springframework.kafka:spring-kafka")
-
+    implementation("org.springframework.kafka:spring-kafka")
+    testImplementation("org.springframework.kafka:spring-kafka-test:3.0.1")
     testImplementation(kotlin("test"))
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.kafka:spring-kafka-test")
 }
 
 tasks.test {
