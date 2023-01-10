@@ -7,7 +7,7 @@ import org.springframework.kafka.test.context.EmbeddedKafka
 import org.springframework.test.context.ActiveProfiles
 
 @SpringBootTest(classes = [ IntegrationtestConfig::class])
-@EmbeddedKafka(count = 1, controlledShutdown = true, brokerProperties= ["log.dir=out/embedded-kafkainnsyn"])
+@EmbeddedKafka(count = 1, controlledShutdown = true, brokerProperties= ["log.dir=out/embedded-kafkaomsorgsarbeid"])
 @ActiveProfiles("integrationtest")
 class SpringAppTest {
 
