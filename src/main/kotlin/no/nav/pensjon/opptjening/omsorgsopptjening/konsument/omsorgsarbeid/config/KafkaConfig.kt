@@ -22,20 +22,20 @@ import java.time.Duration
 @Profile("test", "prod")
 @Configuration
 class KafkaConfig(
-    @param:Value("\${kafka.keystore.path}") private val keystorePath: String,
-    @param:Value("\${kafka.credstore.password}") private val credstorePassword: String,
-    @param:Value("\${kafka.truststore.path}") private val truststorePath: String,
-    @param:Value("\${kafka.brokers}") private val aivenBootstrapServers: String,
-    @param:Value("\${kafka.security.protocol}") private val securityProtocol: String,
+    @Value("\${kafka.keystore.path}") private val keystorePath: String,
+    @Value("\${kafka.credstore.password}") private val credstorePassword: String,
+    @Value("\${kafka.truststore.path}") private val truststorePath: String,
+    @Value("\${kafka.brokers}") private val aivenBootstrapServers: String,
+    @Value("\${kafka.security.protocol}") private val securityProtocol: String,
     @Autowired private val kafkaErrorHandler: KafkaStoppingErrorHandler?
-    ) {
+) {
 
     @Bean
     fun sedKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String>? {
         val factory = ConcurrentKafkaListenerContainerFactory<String, String>()
         factory.consumerFactory = kafkaConsumerFactory()
         factory.containerProperties.ackMode = ContainerProperties.AckMode.MANUAL
-        factory.containerProperties.setAuthExceptionRetryInterval( Duration.ofSeconds(4L) )
+        factory.containerProperties.setAuthExceptionRetryInterval(Duration.ofSeconds(4L))
 
         if (kafkaErrorHandler != null) {
             factory.setCommonErrorHandler(kafkaErrorHandler)
@@ -43,24 +43,24 @@ class KafkaConfig(
         return factory
     }
 
-    fun kafkaConsumerFactory(): ConsumerFactory<String, String> {
-        val configMap: MutableMap<String, Any> = HashMap()
-        //Sikkerhet config
-        configMap[SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG] = keystorePath
-        configMap[SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG] = credstorePassword
-        configMap[SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG] = credstorePassword
-        configMap[SslConfigs.SSL_KEY_PASSWORD_CONFIG] = credstorePassword
-        configMap[SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG] = "JKS"
-        configMap[SslConfigs.SSL_KEYSTORE_TYPE_CONFIG] = "PKCS12"
-        configMap[SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG] = truststorePath
-        configMap[CommonClientConfigs.SECURITY_PROTOCOL_CONFIG] = securityProtocol
-        //Konsument config
-        configMap[ConsumerConfig.CLIENT_ID_CONFIG] = "omsorgsopptjening-konsument-omsorgsarbeid"
-        configMap[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = aivenBootstrapServers
-        configMap[ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG] = false
-        configMap[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = "earliest"
-        configMap[ConsumerConfig.MAX_POLL_RECORDS_CONFIG] = 1
+    fun kafkaConsumerFactory() = DefaultKafkaConsumerFactory(consumerConfig() + securityConfig(), StringDeserializer(), StringDeserializer())
 
-        return DefaultKafkaConsumerFactory(configMap, StringDeserializer(), StringDeserializer())
-    }
+    private fun consumerConfig() = mapOf(
+        ConsumerConfig.CLIENT_ID_CONFIG to "omsorgsopptjening-konsument-omsorgsarbeid",
+        ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to aivenBootstrapServers,
+        ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG to false,
+        ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to "earliest",
+        ConsumerConfig.MAX_POLL_RECORDS_CONFIG to 1,
+    )
+
+    private fun securityConfig() = mapOf(
+        SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG to keystorePath,
+        SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG to credstorePassword,
+        SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG to credstorePassword,
+        SslConfigs.SSL_KEY_PASSWORD_CONFIG to credstorePassword,
+        SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG to "JKS",
+        SslConfigs.SSL_KEYSTORE_TYPE_CONFIG to "PKCS12",
+        SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG to truststorePath,
+        CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to securityProtocol,
+    )
 }
