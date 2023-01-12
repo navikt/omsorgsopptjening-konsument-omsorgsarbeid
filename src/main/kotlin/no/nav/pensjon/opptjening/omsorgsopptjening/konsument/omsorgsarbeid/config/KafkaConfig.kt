@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 import org.springframework.kafka.annotation.EnableKafka
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
-import org.springframework.kafka.core.ConsumerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.kafka.listener.ContainerProperties
 import java.time.Duration
@@ -31,17 +30,13 @@ class KafkaConfig(
 ) {
 
     @Bean
-    fun sedKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String>? {
-        val factory = ConcurrentKafkaListenerContainerFactory<String, String>()
-        factory.consumerFactory = kafkaConsumerFactory()
-        factory.containerProperties.ackMode = ContainerProperties.AckMode.MANUAL
-        factory.containerProperties.setAuthExceptionRetryInterval(Duration.ofSeconds(4L))
-
-        if (kafkaErrorHandler != null) {
-            factory.setCommonErrorHandler(kafkaErrorHandler)
+    fun sedKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String>? =
+        ConcurrentKafkaListenerContainerFactory<String, String>().apply {
+            consumerFactory = kafkaConsumerFactory()
+            containerProperties.ackMode = ContainerProperties.AckMode.MANUAL
+            containerProperties.setAuthExceptionRetryInterval(Duration.ofSeconds(4L))
+            kafkaErrorHandler?.let { setCommonErrorHandler(kafkaErrorHandler) }
         }
-        return factory
-    }
 
     fun kafkaConsumerFactory() = DefaultKafkaConsumerFactory(consumerConfig() + securityConfig(), StringDeserializer(), StringDeserializer())
 
