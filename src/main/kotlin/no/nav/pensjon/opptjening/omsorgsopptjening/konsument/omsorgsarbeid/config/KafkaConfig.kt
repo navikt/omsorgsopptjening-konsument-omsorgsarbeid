@@ -26,11 +26,11 @@ class KafkaConfig(
     @Value("\${kafka.truststore.path}") private val truststorePath: String,
     @Value("\${kafka.brokers}") private val aivenBootstrapServers: String,
     @Value("\${kafka.security.protocol}") private val securityProtocol: String,
-    @Autowired private val kafkaErrorHandler: KafkaStoppingErrorHandler?
+    private val kafkaErrorHandler: KafkaStoppingErrorHandler
 ) {
 
     @Bean
-    fun sedKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String>? =
+    fun omsorgsArbeidKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String>? =
         ConcurrentKafkaListenerContainerFactory<String, String>().apply {
             consumerFactory = kafkaConsumerFactory()
             containerProperties.ackMode = ContainerProperties.AckMode.MANUAL

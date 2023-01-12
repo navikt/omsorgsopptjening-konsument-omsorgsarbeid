@@ -24,6 +24,7 @@ class KafkaStoppingErrorHandler : CommonContainerStoppingErrorHandler() {
         super.handleRemaining(thrownException, records, consumer, container)
     }
 
+    //TODO Secure logs
     fun textListingOf(records: List<ConsumerRecord<*, *>>) =
         records.joinToString(separator = "\n") {
             "-" .repeat(20) + "\n" + vask11sifre(it.toString())
