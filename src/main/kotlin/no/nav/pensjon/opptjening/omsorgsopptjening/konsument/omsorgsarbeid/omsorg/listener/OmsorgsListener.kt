@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.OmsorgsMelding
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.support.Acknowledgment
 import org.springframework.stereotype.Component
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component
 @Component
 class OmsorgsListener {
     @KafkaListener(
-        containerFactory = "kafkaListenerContainerFactory",
+        containerFactory = "omsorgsArbeidKafkaListenerContainerFactory",
         idIsGroup = false,
         topics = ["\${OMSORGP_GODSKRIVING_TOPIC}"],
         groupId = "\${OMSORGP_GODSKRIVING_GROUP_ID}"
