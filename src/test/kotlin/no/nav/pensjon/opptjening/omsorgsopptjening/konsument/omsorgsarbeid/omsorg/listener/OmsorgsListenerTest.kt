@@ -3,7 +3,6 @@ package no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omso
 import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.config.IntegrationtestConfig
 import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.App
 import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.listener.OmsorgsListenerTest.Companion.OMSORG_TOPIC
-import org.apache.kafka.clients.producer.KafkaProducer
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest

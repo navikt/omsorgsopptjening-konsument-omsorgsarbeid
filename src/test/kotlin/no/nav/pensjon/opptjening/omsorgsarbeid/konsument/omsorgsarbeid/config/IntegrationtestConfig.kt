@@ -21,16 +21,6 @@ import java.time.Duration
 class IntegrationtestConfig(
     @Value("\${spring.embedded.kafka.brokers}") private val bootstrapServers: String
 ) {
-
-    @Bean
-    fun omsorgsArbeidKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String>? {
-        return ConcurrentKafkaListenerContainerFactory<String, String>().apply {
-            consumerFactory = kafkaConsumerFactory()
-            containerProperties.ackMode = ContainerProperties.AckMode.MANUAL
-            containerProperties.setAuthExceptionRetryInterval(Duration.ofSeconds(4L))
-        }
-    }
-
     @Bean
     fun producerFactory(): ProducerFactory<String, String> = DefaultKafkaProducerFactory(
         mapOf(
@@ -43,6 +33,15 @@ class IntegrationtestConfig(
     @Bean
     fun kafkaTemplate(producer: ProducerFactory<String, String>): KafkaTemplate<String, String> {
         return KafkaTemplate(producer)
+    }
+
+    @Bean
+    fun omsorgsArbeidKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String>? {
+        return ConcurrentKafkaListenerContainerFactory<String, String>().apply {
+            consumerFactory = kafkaConsumerFactory()
+            containerProperties.ackMode = ContainerProperties.AckMode.MANUAL
+            containerProperties.setAuthExceptionRetryInterval(Duration.ofSeconds(4L))
+        }
     }
 
     fun kafkaConsumerFactory(): ConsumerFactory<String, String> {
