@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val springVersion = "3.0.1"
 val logbackEncoderVersion = "7.2"
 val testcontainersVersion = "1.17.6"
+val jacksonVersion = "2.14.1"
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.8.0"
@@ -22,8 +23,13 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.kafka:spring-kafka")
+
+    // Kotlin
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+
     testImplementation("org.springframework.kafka:spring-kafka-test:3.0.1")
     testImplementation(kotlin("test"))
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks.test {
