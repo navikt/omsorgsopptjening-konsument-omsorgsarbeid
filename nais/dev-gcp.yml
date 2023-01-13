@@ -9,6 +9,8 @@ spec:
   env:
     - name: SPRING_PROFILES_ACTIVE
       value: dev-gcp
+  kafka:
+    pool: nav-dev
   image: {{ image }}
   ingresses:
     - https://omsorgsopptjening-konsument-omsorgsarbeid.dev.intern.nav.no
