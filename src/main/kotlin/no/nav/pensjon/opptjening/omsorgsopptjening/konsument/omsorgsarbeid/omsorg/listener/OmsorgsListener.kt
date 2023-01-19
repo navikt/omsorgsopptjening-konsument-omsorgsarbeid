@@ -18,7 +18,7 @@ class OmsorgsListener {
         groupId = "\${OMSORGP_GODSKRIVING_GROUP_ID}"
     )
     fun consumeOmsorgPGodskriving(hendelse: String, consumerRecord: ConsumerRecord<String, String>, acknowledgment: Acknowledgment) {
-        logger.info("Konsumerer omsorgsmelding")
+        logger.info("Konsumerer omsorgsmelding: ${consumerRecord.key()}, ${consumerRecord.value()}")
         val record: OmsorgsMelding = jacksonObjectMapper().readValue(consumerRecord.value(), OmsorgsMelding::class.java)
 
     }
