@@ -1,3 +1,4 @@
+/*
 package no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.config
 
 import org.apache.kafka.clients.consumer.Consumer
@@ -32,3 +33,4 @@ class KafkaStoppingErrorHandler : CommonContainerStoppingErrorHandler() {
 
     private fun vask11sifre(tekst: String) = tekst.replace(Regex("""\b\d{11}\b"""), "***")
 }
+*/
