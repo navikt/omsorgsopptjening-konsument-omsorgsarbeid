@@ -25,7 +25,6 @@ class KafkaConfig(
     @Value("\${kafka.credstore.password}") private val credstorePassword: String,
     @Value("\${kafka.truststore.path}") private val truststorePath: String,
     @Value("\${kafka.brokers}") private val aivenBootstrapServers: String,
-    @Value("\${kafka.security.protocol}") private val securityProtocol: String,
     private val kafkaErrorHandler: KafkaStoppingErrorHandler
 ) {
 
@@ -56,6 +55,6 @@ class KafkaConfig(
         SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG to "JKS",
         SslConfigs.SSL_KEYSTORE_TYPE_CONFIG to "PKCS12",
         SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG to truststorePath,
-        CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to securityProtocol,
+        CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to "SSL",
     )
 }
