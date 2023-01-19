@@ -1,6 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val springVersion = "3.0.1"
 val logbackEncoderVersion = "7.2"
 val testcontainersVersion = "1.17.6"
 val jacksonVersion = "2.14.1"
@@ -27,7 +26,11 @@ dependencies {
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
 
-    testImplementation("org.springframework.kafka:spring-kafka-test:3.0.1")
+    // Log and metric
+    implementation("io.micrometer:micrometer-registry-prometheus")
+    implementation("net.logstash.logback:logstash-logback-encoder:$logbackEncoderVersion")
+
+    testImplementation("org.springframework.kafka:spring-kafka-test:3.0.2")
     testImplementation(kotlin("test"))
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
