@@ -14,7 +14,7 @@ class OmsorgsListener {
     @KafkaListener(
         containerFactory = "omsorgsArbeidKafkaListenerContainerFactory",
         idIsGroup = false,
-        topics = ["\${OMSORGP_GODSKRIVING_TOPIC}"],
+        topics = ["\${OMSORGSARBEID_TOPIC}"],
         groupId = "\${OMSORGP_GODSKRIVING_GROUP_ID}"
     )
     fun consumeOmsorgPGodskriving(hendelse: String, consumerRecord: ConsumerRecord<String, String>, acknowledgment: Acknowledgment) {

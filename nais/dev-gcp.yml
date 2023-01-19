@@ -9,6 +9,10 @@ spec:
   env:
     - name: SPRING_PROFILES_ACTIVE
       value: dev-gcp
+    - name: OMSORGSARBEID_TOPIC
+      value: omsorgsarbeid-mock-topic
+    - name: OMSORGP_GODSKRIVING_GROUP_ID
+      value: omsorgspenger-godskriving-group
   kafka:
     pool: nav-dev
   image: {{ image }}
