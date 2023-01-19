@@ -18,7 +18,7 @@ import java.time.Duration
 
 
 @EnableKafka
-@Profile("test", "prod")
+@Profile("dev-gcp")
 @Configuration
 class KafkaConfig(
     @Value("\${kafka.keystore.path}") private val keystorePath: String,
