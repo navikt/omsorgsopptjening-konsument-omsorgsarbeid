@@ -1,6 +1,6 @@
 package no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid
 
-import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.config.IntegrationtestConfig
+import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.testconfig.IntegrationtestConfig
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.kafka.test.context.EmbeddedKafka

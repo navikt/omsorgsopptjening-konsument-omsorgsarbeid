@@ -1,4 +1,4 @@
-package no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.config
+package no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg
 
 
 import org.apache.kafka.clients.CommonClientConfigs
@@ -18,7 +18,6 @@ import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.kafka.core.DefaultKafkaProducerFactory
 import org.springframework.kafka.core.KafkaTemplate
-import org.springframework.kafka.core.ProducerFactory
 
 
 @EnableKafka

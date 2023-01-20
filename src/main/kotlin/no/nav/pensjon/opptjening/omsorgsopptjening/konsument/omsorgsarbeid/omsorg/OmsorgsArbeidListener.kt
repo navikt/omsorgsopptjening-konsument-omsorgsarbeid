@@ -1,8 +1,6 @@
-package no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.listener
+package no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.OmsorgsArbeid
-import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.OmsorgsArbeidKey
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -12,7 +10,7 @@ import org.springframework.kafka.support.Acknowledgment
 import org.springframework.stereotype.Component
 
 @Component
-class OmsorgsListener(
+class OmsorgsArbeidListener(
     private val kafkaProducer: KafkaTemplate<String, String>,
     @Value("\${OMSORGSOPPTJENING_TOPIC}") private val omsorgsOpptjeningTopic: String
 ) {
@@ -37,6 +35,6 @@ class OmsorgsListener(
     }
 
     companion object {
-        private val logger = LoggerFactory.getLogger(OmsorgsListener::class.java)
+        private val logger = LoggerFactory.getLogger(OmsorgsArbeidListener::class.java)
     }
 }

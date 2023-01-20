@@ -1,4 +1,4 @@
-package no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.config
+package no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.testconfig
 
 
 import org.apache.kafka.clients.CommonClientConfigs

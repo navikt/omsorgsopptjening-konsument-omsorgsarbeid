@@ -1,10 +1,11 @@
-package no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.listener
+package no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid
 
-import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.config.IntegrationtestConfig
-import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.config.OmsorgsopptjeningListener
+import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.testconfig.IntegrationtestConfig
+import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.testconfig.OmsorgsopptjeningListener
 import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.App
-import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.listener.OmsorgsListenerTest.Companion.OMSORGSARBEID_TOPIC
-import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.listener.OmsorgsListenerTest.Companion.OMSORGSOPPTJENING_TOPIC
+import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.OmsorgsArbeidListener
+import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.OmsorgsListenerTest.Companion.OMSORGSARBEID_TOPIC
+import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.OmsorgsListenerTest.Companion.OMSORGSOPPTJENING_TOPIC
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,7 +24,7 @@ internal class OmsorgsListenerTest {
     lateinit var embeddedKafka: EmbeddedKafkaBroker
 
     @Autowired
-    lateinit var omsorgsListener: OmsorgsListener
+    lateinit var omsorgsArbeidListener: OmsorgsArbeidListener
 
     @Autowired
     lateinit var omsorgsarbeidProducer: KafkaTemplate<String, String>
