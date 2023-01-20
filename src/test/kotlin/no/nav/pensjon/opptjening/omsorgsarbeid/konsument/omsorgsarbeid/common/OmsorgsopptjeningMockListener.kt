@@ -1,4 +1,4 @@
-package no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.testconfig
+package no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.common
 
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.slf4j.LoggerFactory
@@ -7,7 +7,7 @@ import org.springframework.kafka.support.Acknowledgment
 import org.springframework.stereotype.Component
 
 @Component
-class OmsorgsopptjeningListener {
+class OmsorgsopptjeningMockListener {
 
     private val records: MutableList<ConsumerRecord<String, String>> = mutableListOf()
 
@@ -19,7 +19,6 @@ class OmsorgsopptjeningListener {
     )
     fun consumeOmsorgPGodskriving(hendelse: String, consumerRecord: ConsumerRecord<String, String>, acknowledgment: Acknowledgment) {
         logger.info("Konsumerer omsorgsmelding: ${consumerRecord.key()}, ${consumerRecord.value()}")
-
         records.add(consumerRecord)
     }
 
@@ -33,8 +32,7 @@ class OmsorgsopptjeningListener {
         return records.removeFirstOrNull()
     }
 
-
     companion object {
-        private val logger = LoggerFactory.getLogger(OmsorgsopptjeningListener::class.java)
+        private val logger = LoggerFactory.getLogger(OmsorgsopptjeningMockListener::class.java)
     }
 }

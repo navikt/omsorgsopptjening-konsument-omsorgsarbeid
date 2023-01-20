@@ -1,7 +1,7 @@
 package no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid
 
-import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.testconfig.IntegrationtestConfig
-import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.testconfig.OmsorgsopptjeningListener
+import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.common.KafkaIntegrationTestConfig
+import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.common.OmsorgsopptjeningMockListener
 import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.App
 import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.OmsorgsArbeidListener
 import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.OmsorgsListenerTest.Companion.OMSORGSARBEID_TOPIC
@@ -17,7 +17,7 @@ import org.springframework.kafka.test.context.EmbeddedKafka
 
 @EmbeddedKafka(partitions = 1, topics = [OMSORGSARBEID_TOPIC, OMSORGSOPPTJENING_TOPIC])
 @SpringBootTest(classes = [App::class])
-@Import(IntegrationtestConfig::class, OmsorgsopptjeningListener::class)
+@Import(KafkaIntegrationTestConfig::class, OmsorgsopptjeningMockListener::class)
 internal class OmsorgsListenerTest {
 
     @Autowired
@@ -30,7 +30,7 @@ internal class OmsorgsListenerTest {
     lateinit var omsorgsarbeidProducer: KafkaTemplate<String, String>
 
     @Autowired
-    lateinit var omsorgsopptjeingListener: OmsorgsopptjeningListener
+    lateinit var omsorgsopptjeingListener: OmsorgsopptjeningMockListener
 
 
     @Test
@@ -71,5 +71,3 @@ internal class OmsorgsListenerTest {
         const val OMSORGSOPPTJENING_TOPIC = "omsorgsopptjening"
     }
 }
-
-// {"omsorgsyter":"12345678910","ar":"2002"}, {"omsorgsyter":"12345678910","ar":"2002","hash":"2023-01-19T15:55:35.766223643"}
