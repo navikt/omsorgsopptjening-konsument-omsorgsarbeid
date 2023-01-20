@@ -13,6 +13,8 @@ spec:
       value: pensjonopptjening.omsorgsarbeid-mock-topic
     - name: OMSORGP_GODSKRIVING_GROUP_ID
       value: omsorgspenger-godskriving-group
+    - mame: OMSORGSOPPTJENING_TOPIC
+      value: omsorgsopptjening
   kafka:
     pool: nav-dev
   image: {{ image }}
