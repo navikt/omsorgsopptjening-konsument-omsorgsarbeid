@@ -28,12 +28,26 @@ internal class OmsorgsListenerTest {
 
     @Test
     fun `should call journalforing with expected json`() {
-        kafkaTemplate.send(OMSORG_TOPIC, "apepay", "sfsd")
+        kafkaTemplate.send(OMSORG_TOPIC, omsorgsMeldingKey(), omsorgsMeldingValue())
 
         println("")
     }
+
+    fun omsorgsMeldingKey(omsorgsyter: String = "12345678910", ar: String = "2020") =
+        """{"omsorgsyter":"$omsorgsyter","ar":"$ar"}"""
+
+
+    fun omsorgsMeldingValue(
+        omsorgsyter: String = "12345678910",
+        ar: String = "2020",
+        hash: String = """2023-01-19T15:55:35.766223643"""
+    ) =
+        """{ "omsorgsyter":"$omsorgsyter", "ar":"$ar", "hash":"$hash" }"""
+
 
     companion object {
         const val OMSORG_TOPIC = "omsorgsarbeid"
     }
 }
+
+// {"omsorgsyter":"12345678910","ar":"2002"}, {"omsorgsyter":"12345678910","ar":"2002","hash":"2023-01-19T15:55:35.766223643"}

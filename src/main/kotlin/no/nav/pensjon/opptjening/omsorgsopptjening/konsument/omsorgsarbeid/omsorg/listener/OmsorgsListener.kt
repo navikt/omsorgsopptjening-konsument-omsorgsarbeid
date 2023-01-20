@@ -2,9 +2,9 @@ package no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omso
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.OmsorgsMelding
+import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.OmsorgsMeldingKey
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.support.Acknowledgment
 import org.springframework.stereotype.Component
@@ -19,8 +19,9 @@ class OmsorgsListener {
     )
     fun consumeOmsorgPGodskriving(hendelse: String, consumerRecord: ConsumerRecord<String, String>, acknowledgment: Acknowledgment) {
         logger.info("Konsumerer omsorgsmelding: ${consumerRecord.key()}, ${consumerRecord.value()}")
-        val record: OmsorgsMelding = jacksonObjectMapper().readValue(consumerRecord.value(), OmsorgsMelding::class.java)
 
+        jacksonObjectMapper().readValue(consumerRecord.value(), OmsorgsMelding::class.java)
+        jacksonObjectMapper().readValue(consumerRecord.value(), OmsorgsMeldingKey::class.java)
     }
 
     companion object {
