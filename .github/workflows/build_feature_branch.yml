@@ -1,4 +1,4 @@
-name: Bygg og deploy omsorgsopptjening-konsument-omsorgsarbeid til dev-gcp
+name: Bygg og deploy branch omsorgsopptjening-konsument-omsorgsarbeid til dev-gcp
 
 on:
   push:
