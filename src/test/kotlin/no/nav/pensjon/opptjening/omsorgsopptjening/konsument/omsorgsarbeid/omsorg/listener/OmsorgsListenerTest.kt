@@ -1,8 +1,9 @@
 package no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.listener
 
 import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.config.IntegrationtestConfig
+import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.config.OmsorgsopptjeningListener
 import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.App
-import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.listener.OmsorgsListenerTest.Companion.OMSORG_TOPIC
+import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.listener.OmsorgsListenerTest.Companion.OMSORGSARBEID_TOPIC
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -11,9 +12,9 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.test.EmbeddedKafkaBroker
 import org.springframework.kafka.test.context.EmbeddedKafka
 
-@EmbeddedKafka(partitions = 1, topics = [OMSORG_TOPIC])
+@EmbeddedKafka(partitions = 1, topics = [OMSORGSARBEID_TOPIC])
 @SpringBootTest(classes = [App::class])
-@Import(IntegrationtestConfig::class)
+@Import(IntegrationtestConfig::class, OmsorgsopptjeningListener::class)
 internal class OmsorgsListenerTest {
 
     @Autowired
@@ -25,10 +26,17 @@ internal class OmsorgsListenerTest {
     @Autowired
     lateinit var kafkaTemplate: KafkaTemplate<String, String>
 
+    @Autowired
+    lateinit var omsorgsopptjeingListener: OmsorgsopptjeningListener
+
 
     @Test
-    fun `should call journalforing with expected json`() {
-        kafkaTemplate.send(OMSORG_TOPIC, omsorgsMeldingKey(), omsorgsMeldingValue())
+    fun `given omsorgsarbeid event then produce omsorgsopptjening event`() {
+        kafkaTemplate.send(OMSORGSARBEID_TOPIC, omsorgsMeldingKey(), omsorgsMeldingValue())
+
+
+
+
 
         println("")
     }
@@ -46,7 +54,7 @@ internal class OmsorgsListenerTest {
 
 
     companion object {
-        const val OMSORG_TOPIC = "omsorgsarbeid"
+        const val OMSORGSARBEID_TOPIC = "omsorgsarbeid"
     }
 }
 
