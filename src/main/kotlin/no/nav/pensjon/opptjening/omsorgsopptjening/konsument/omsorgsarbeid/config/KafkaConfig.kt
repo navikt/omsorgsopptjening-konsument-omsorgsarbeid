@@ -29,7 +29,6 @@ class KafkaConfig(
     @Value("\${kafka.credstore.password}") private val credstorePassword: String,
     @Value("\${kafka.truststore.path}") private val truststorePath: String,
     @Value("\${kafka.brokers}") private val aivenBootstrapServers: String,
-  //  private val kafkaErrorHandler: KafkaStoppingErrorHandler
 ) {
 
     @Bean
@@ -38,7 +37,6 @@ class KafkaConfig(
             consumerFactory = kafkaConsumerFactory()
             containerProperties.ackMode = ContainerProperties.AckMode.MANUAL
             containerProperties.setAuthExceptionRetryInterval(Duration.ofSeconds(4L))
-            //        kafkaErrorHandler?.let { setCommonErrorHandler(kafkaErrorHandler) }
         }
 
     @Bean

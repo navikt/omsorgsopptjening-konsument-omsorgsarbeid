@@ -1,8 +1,5 @@
 package no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.config
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.OmsorgsArbeid
-import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.OmsorgsArbeidKey
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.slf4j.LoggerFactory
 import org.springframework.kafka.annotation.KafkaListener
@@ -11,18 +8,32 @@ import org.springframework.stereotype.Component
 
 @Component
 class OmsorgsopptjeningListener {
+
+    private val records: MutableList<ConsumerRecord<String, String>> = mutableListOf()
+
     @KafkaListener(
         containerFactory = "omsorgsArbeidKafkaListenerContainerFactory",
         idIsGroup = false,
         topics = ["\${OMSORGSOPPTJENING_TOPIC}"],
         groupId = "TEST"
     )
+
     fun consumeOmsorgPGodskriving(hendelse: String, consumerRecord: ConsumerRecord<String, String>, acknowledgment: Acknowledgment) {
         logger.info("Konsumerer omsorgsmelding: ${consumerRecord.key()}, ${consumerRecord.value()}")
 
-        jacksonObjectMapper().readValue(consumerRecord.value(), OmsorgsArbeid::class.java)
-        jacksonObjectMapper().readValue(consumerRecord.key(), OmsorgsArbeidKey::class.java)
+        records.add(consumerRecord)
     }
+
+    fun getRecord(waitForSeconds: Int): ConsumerRecord<String, String>? {
+        var secondsPassed = 0
+        while(secondsPassed < waitForSeconds && records.size != 1){
+            Thread.sleep(1000)
+            secondsPassed ++
+        }
+
+        return records.removeFirstOrNull()
+    }
+
 
     companion object {
         private val logger = LoggerFactory.getLogger(OmsorgsopptjeningListener::class.java)

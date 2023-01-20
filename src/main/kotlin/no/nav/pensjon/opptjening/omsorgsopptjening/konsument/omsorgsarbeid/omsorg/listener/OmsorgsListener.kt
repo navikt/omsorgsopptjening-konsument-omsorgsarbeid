@@ -5,23 +5,35 @@ import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsor
 import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.OmsorgsArbeidKey
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.kafka.annotation.KafkaListener
+import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.Acknowledgment
 import org.springframework.stereotype.Component
 
 @Component
-class OmsorgsListener {
+class OmsorgsListener(
+    private val kafkaProducer: KafkaTemplate<String, String>,
+    @Value("\${OMSORGSOPPTJENING_TOPIC}") private val producerTopic: String
+) {
     @KafkaListener(
         containerFactory = "omsorgsArbeidKafkaListenerContainerFactory",
         idIsGroup = false,
         topics = ["\${OMSORGSARBEID_TOPIC}"],
         groupId = "\${OMSORGP_GODSKRIVING_GROUP_ID}"
     )
-    fun consumeOmsorgPGodskriving(hendelse: String, consumerRecord: ConsumerRecord<String, String>, acknowledgment: Acknowledgment) {
+    fun consumeOmsorgPGodskriving(
+        hendelse: String,
+        consumerRecord: ConsumerRecord<String, String>,
+        acknowledgment: Acknowledgment
+    ) {
         logger.info("Konsumerer omsorgsmelding: ${consumerRecord.key()}, ${consumerRecord.value()}")
 
         jacksonObjectMapper().readValue(consumerRecord.value(), OmsorgsArbeid::class.java)
         jacksonObjectMapper().readValue(consumerRecord.key(), OmsorgsArbeidKey::class.java)
+
+        acknowledgment.acknowledge()
+        kafkaProducer.send(producerTopic, "test", "test")
     }
 
     companion object {
