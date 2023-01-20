@@ -21,7 +21,7 @@ class OmsorgsListener {
         logger.info("Konsumerer omsorgsmelding: ${consumerRecord.key()}, ${consumerRecord.value()}")
 
         jacksonObjectMapper().readValue(consumerRecord.value(), OmsorgsMelding::class.java)
-        jacksonObjectMapper().readValue(consumerRecord.value(), OmsorgsMeldingKey::class.java)
+        jacksonObjectMapper().readValue(consumerRecord.key(), OmsorgsMeldingKey::class.java)
     }
 
     companion object {
