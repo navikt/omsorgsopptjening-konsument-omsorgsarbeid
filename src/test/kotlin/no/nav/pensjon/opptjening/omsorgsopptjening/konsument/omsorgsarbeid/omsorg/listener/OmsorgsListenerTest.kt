@@ -26,7 +26,7 @@ internal class OmsorgsListenerTest {
     lateinit var omsorgsListener: OmsorgsListener
 
     @Autowired
-    lateinit var kafkaTemplate: KafkaTemplate<String, String>
+    lateinit var omsorgsarbeidProducer: KafkaTemplate<String, String>
 
     @Autowired
     lateinit var omsorgsopptjeingListener: OmsorgsopptjeningListener
@@ -34,7 +34,7 @@ internal class OmsorgsListenerTest {
 
     @Test
     fun `given omsorgsarbeid event then produce omsorgsopptjening event`() {
-        kafkaTemplate.send(OMSORGSARBEID_TOPIC, omsorgsMeldingKey(), omsorgsMeldingValue())
+        omsorgsarbeidProducer.send(OMSORGSARBEID_TOPIC, omsorgsMeldingKey(), omsorgsMeldingValue())
 
         val record = omsorgsopptjeingListener.getRecord(20)
 

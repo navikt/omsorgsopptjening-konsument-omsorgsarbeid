@@ -17,7 +17,6 @@ class OmsorgsopptjeningListener {
         topics = ["\${OMSORGSOPPTJENING_TOPIC}"],
         groupId = "TEST"
     )
-
     fun consumeOmsorgPGodskriving(hendelse: String, consumerRecord: ConsumerRecord<String, String>, acknowledgment: Acknowledgment) {
         logger.info("Konsumerer omsorgsmelding: ${consumerRecord.key()}, ${consumerRecord.value()}")
 
@@ -26,7 +25,7 @@ class OmsorgsopptjeningListener {
 
     fun getRecord(waitForSeconds: Int): ConsumerRecord<String, String>? {
         var secondsPassed = 0
-        while(secondsPassed < waitForSeconds && records.size != 1){
+        while(secondsPassed < waitForSeconds && records.size < 1){
             Thread.sleep(1000)
             secondsPassed ++
         }

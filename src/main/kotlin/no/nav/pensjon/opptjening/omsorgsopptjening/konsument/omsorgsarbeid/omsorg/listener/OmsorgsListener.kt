@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
 @Component
 class OmsorgsListener(
     private val kafkaProducer: KafkaTemplate<String, String>,
-    @Value("\${OMSORGSOPPTJENING_TOPIC}") private val producerTopic: String
+    @Value("\${OMSORGSOPPTJENING_TOPIC}") private val omsorgsOpptjeningTopic: String
 ) {
     @KafkaListener(
         containerFactory = "omsorgsArbeidKafkaListenerContainerFactory",
@@ -32,8 +32,8 @@ class OmsorgsListener(
         jacksonObjectMapper().readValue(consumerRecord.value(), OmsorgsArbeid::class.java)
         jacksonObjectMapper().readValue(consumerRecord.key(), OmsorgsArbeidKey::class.java)
 
+        kafkaProducer.send(omsorgsOpptjeningTopic, "test", "test")
         acknowledgment.acknowledge()
-        kafkaProducer.send(producerTopic, "test", "test")
     }
 
     companion object {
