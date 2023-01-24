@@ -30,7 +30,7 @@ class OmsorgsArbeidListener(
         jacksonObjectMapper().readValue(consumerRecord.value(), OmsorgsArbeid::class.java)
         jacksonObjectMapper().readValue(consumerRecord.key(), OmsorgsArbeidKey::class.java)
 
-        kafkaProducer.send(omsorgsOpptjeningTopic, "test", "test")
+        kafkaProducer.send(omsorgsOpptjeningTopic, consumerRecord.key(), consumerRecord.value())
         acknowledgment.acknowledge()
     }
 
