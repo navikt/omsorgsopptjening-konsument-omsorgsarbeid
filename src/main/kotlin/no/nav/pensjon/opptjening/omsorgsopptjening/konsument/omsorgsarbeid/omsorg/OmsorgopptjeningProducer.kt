@@ -3,6 +3,7 @@ package no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omso
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
+import java.util.concurrent.TimeUnit
 
 @Component
 class OmsorgopptjeningProducer(
@@ -11,6 +12,8 @@ class OmsorgopptjeningProducer(
 ) {
 
     fun send(key: String, value: String) {
-        kafkaProducer.send(omsorgsOpptjeningTopic, key, value)
+        kafkaProducer
+            .send(omsorgsOpptjeningTopic, key, value)
+            .get(1, TimeUnit.SECONDS)
     }
 }
