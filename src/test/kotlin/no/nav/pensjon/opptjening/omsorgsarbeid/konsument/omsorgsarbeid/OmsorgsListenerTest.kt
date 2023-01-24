@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Import
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.test.EmbeddedKafkaBroker
 import org.springframework.kafka.test.context.EmbeddedKafka
+import kotlin.test.assertEquals
 
 @EmbeddedKafka(partitions = 1, topics = [OMSORGSARBEID_TOPIC, OMSORGSOPPTJENING_TOPIC])
 @SpringBootTest(classes = [App::class])
@@ -40,6 +41,8 @@ internal class OmsorgsListenerTest {
         val record = omsorgsopptjeingListener.getRecord(20)
 
         assertNotNull(record)
+        assertEquals(omsorgsMeldingKey(), record?.key())
+        assertEquals(omsorgsMeldingValue(), record?.value())
     }
 
     fun omsorgsMeldingKey(omsorgsyter: String = "12345678910", ar: String = "2020") =
