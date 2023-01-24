@@ -14,7 +14,7 @@ spec:
     - name: OMSORGP_GODSKRIVING_GROUP_ID
       value: omsorgspenger-godskriving-group
     - name: OMSORGSOPPTJENING_TOPIC
-      value: omsorgsopptjening
+      value: pensjonopptjening.omsorgsopptjening
   kafka:
     pool: nav-dev
   image: {{ image }}
