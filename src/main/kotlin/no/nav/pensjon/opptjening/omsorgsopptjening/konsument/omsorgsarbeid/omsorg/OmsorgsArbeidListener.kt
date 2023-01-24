@@ -12,13 +12,13 @@ import org.springframework.stereotype.Component
 
 @Component
 class OmsorgsArbeidListener(
-    registry: MeterRegistry,
+    private val registry: MeterRegistry,
     private val kafkaProducer: KafkaTemplate<String, String>,
     @Value("\${OMSORGSOPPTJENING_TOPIC}") private val omsorgsOpptjeningTopic: String
 ) {
-    private val antallLesteMeldinger = registry.counter("OMSORGSOPPTJENING_TOPIC", "lest")
-    private val antallProduserteMeldinger = registry.counter("OMSORGSARBEID_TOPIC", "produsert")
-    private val antallKonsumerteMeldinger = registry.counter("OMSORGSOPPTJENING_TOPIC", "konsumert")
+    private val antallLesteMeldinger = registry.counter("omsorgsArbeidListener", "OMSORGSOPPTJENING_TOPIC", "lest")
+    private val antallProduserteMeldinger = registry.counter("omsorgsArbeidListener", "OMSORGSARBEID_TOPIC", "produsert")
+    private val antallKonsumerteMeldinger = registry.counter("omsorgsArbeidListener", "OMSORGSOPPTJENING_TOPIC", "konsumert")
 
     @KafkaListener(
         containerFactory = "omsorgsArbeidKafkaListenerContainerFactory",
