@@ -4,18 +4,12 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.micrometer.core.instrument.MeterRegistry
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.kafka.annotation.KafkaListener
-import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.Acknowledgment
 import org.springframework.stereotype.Component
 
 @Component
-class OmsorgsArbeidListener(
-    private val registry: MeterRegistry,
-    private val kafkaProducer: KafkaTemplate<String, String>,
-    @Value("\${OMSORGSOPPTJENING_TOPIC}") private val omsorgsOpptjeningTopic: String
-) {
+class OmsorgsArbeidListener(registry: MeterRegistry, private val omsorgOpptjeningProducer: OmsorgOpptjeningProducer) {
     private val antallLesteMeldinger = registry.counter("omsorgsArbeidListener", "antall", "lest")
     private val antallProduserteMeldinger = registry.counter("omsorgsArbeidListener", "antall", "produsert")
     private val antallKonsumerteMeldinger = registry.counter("omsorgsArbeidListener", "antall", "konsumert")
@@ -37,7 +31,7 @@ class OmsorgsArbeidListener(
         jacksonObjectMapper().readValue(consumerRecord.value(), OmsorgsArbeid::class.java)
         jacksonObjectMapper().readValue(consumerRecord.key(), OmsorgsArbeidKey::class.java)
 
-        kafkaProducer.send(omsorgsOpptjeningTopic, consumerRecord.key(), consumerRecord.value())
+        omsorgOpptjeningProducer.send(consumerRecord.key(), consumerRecord.value())
         antallProduserteMeldinger.increment()
         acknowledgment.acknowledge()
         antallKonsumerteMeldinger.increment()
