@@ -1,6 +1,5 @@
 package no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.micrometer.core.instrument.MeterRegistry
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.slf4j.LoggerFactory
@@ -9,7 +8,10 @@ import org.springframework.kafka.support.Acknowledgment
 import org.springframework.stereotype.Component
 
 @Component
-class OmsorgsArbeidListener(registry: MeterRegistry, private val omsorgOpptjeningProducer: OmsorgOpptjeningProducer) {
+class OmsorgsarbeidListener(
+    registry: MeterRegistry, private val
+    omsorgOpptjeningProducer: OmsorgopptjeningProducer
+) {
     private val antallLesteMeldinger = registry.counter("omsorgsArbeidListener", "antall", "lest")
     private val antallProduserteMeldinger = registry.counter("omsorgsArbeidListener", "antall", "produsert")
     private val antallKonsumerteMeldinger = registry.counter("omsorgsArbeidListener", "antall", "konsumert")
@@ -28,8 +30,8 @@ class OmsorgsArbeidListener(registry: MeterRegistry, private val omsorgOpptjenin
         antallLesteMeldinger.increment()
         logger.info("Konsumerer omsorgsmelding: ${consumerRecord.key()}, ${consumerRecord.value()}")
 
-        jacksonObjectMapper().readValue(consumerRecord.value(), OmsorgsArbeid::class.java)
-        jacksonObjectMapper().readValue(consumerRecord.key(), OmsorgsArbeidKey::class.java)
+        convertToOmsorgsArbeid(consumerRecord.value())
+        convertToOmsorgsArbeidKey(consumerRecord.key())
 
         omsorgOpptjeningProducer.send(consumerRecord.key(), consumerRecord.value())
         antallProduserteMeldinger.increment()
@@ -38,6 +40,6 @@ class OmsorgsArbeidListener(registry: MeterRegistry, private val omsorgOpptjenin
     }
 
     companion object {
-        private val logger = LoggerFactory.getLogger(OmsorgsArbeidListener::class.java)
+        private val logger = LoggerFactory.getLogger(OmsorgsarbeidListener::class.java)
     }
 }

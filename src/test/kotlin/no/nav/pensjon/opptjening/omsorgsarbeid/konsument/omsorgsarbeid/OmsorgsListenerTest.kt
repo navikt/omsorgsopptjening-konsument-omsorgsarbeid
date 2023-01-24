@@ -3,7 +3,7 @@ package no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid
 import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.common.KafkaIntegrationTestConfig
 import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.common.OmsorgsopptjeningMockListener
 import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.App
-import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.OmsorgsArbeidListener
+import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.OmsorgsarbeidListener
 import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.OmsorgsListenerTest.Companion.OMSORGSARBEID_TOPIC
 import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.OmsorgsListenerTest.Companion.OMSORGSOPPTJENING_TOPIC
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -25,7 +25,7 @@ internal class OmsorgsListenerTest {
     lateinit var embeddedKafka: EmbeddedKafkaBroker
 
     @Autowired
-    lateinit var omsorgsArbeidListener: OmsorgsArbeidListener
+    lateinit var omsorgsArbeidListener: OmsorgsarbeidListener
 
     @Autowired
     lateinit var omsorgsarbeidProducer: KafkaTemplate<String, String>
