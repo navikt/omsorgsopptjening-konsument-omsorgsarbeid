@@ -16,9 +16,9 @@ class OmsorgsArbeidListener(
     private val kafkaProducer: KafkaTemplate<String, String>,
     @Value("\${OMSORGSOPPTJENING_TOPIC}") private val omsorgsOpptjeningTopic: String
 ) {
-    private val antallLesteMeldinger = registry.counter("omsorgsArbeidListener", "OMSORGSOPPTJENING_TOPIC", "lest")
-    private val antallProduserteMeldinger = registry.counter("omsorgsArbeidListener", "OMSORGSARBEID_TOPIC", "produsert")
-    private val antallKonsumerteMeldinger = registry.counter("omsorgsArbeidListener", "OMSORGSOPPTJENING_TOPIC", "konsumert")
+    private val antallLesteMeldinger = registry.counter("omsorgsArbeidListener", "antall", "lest")
+    private val antallProduserteMeldinger = registry.counter("omsorgsArbeidListener", "antall", "produsert")
+    private val antallKonsumerteMeldinger = registry.counter("omsorgsArbeidListener", "antall", "konsumert")
 
     @KafkaListener(
         containerFactory = "omsorgsArbeidKafkaListenerContainerFactory",
