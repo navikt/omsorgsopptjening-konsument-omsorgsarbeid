@@ -21,7 +21,6 @@ import java.time.Duration
 
 
 @EnableKafka
-
 @Configuration
 class KafkaConfig(@Value("\${kafka.brokers}") private val aivenBootstrapServers: String) {
 
@@ -31,7 +30,7 @@ class KafkaConfig(@Value("\${kafka.brokers}") private val aivenBootstrapServers:
             containerProperties.ackMode = ContainerProperties.AckMode.MANUAL
             containerProperties.setAuthExceptionRetryInterval(Duration.ofSeconds(4L))
             consumerFactory = DefaultKafkaConsumerFactory(
-                consumerConfig() + kafkaSecurityConfig.config,
+                consumerConfig() + kafkaSecurityConfig.securityConfigs,
                 StringDeserializer(),
                 StringDeserializer()
             )
@@ -39,7 +38,7 @@ class KafkaConfig(@Value("\${kafka.brokers}") private val aivenBootstrapServers:
 
     @Bean
     fun omsorgsopptjeningProducerKafkaTemplate(kafkaSecurityConfig: KafkaSecurityConfig): KafkaTemplate<String, String> =
-        KafkaTemplate(DefaultKafkaProducerFactory(omsorgsopptjeningProducerConfig() + kafkaSecurityConfig.config))
+        KafkaTemplate(DefaultKafkaProducerFactory(omsorgsopptjeningProducerConfig() + kafkaSecurityConfig.securityConfigs))
 
     private fun consumerConfig() = mapOf(
         ConsumerConfig.CLIENT_ID_CONFIG to "omsorgsopptjening-konsument-omsorgsarbeid",
@@ -63,17 +62,17 @@ class KafkaConfig(@Value("\${kafka.brokers}") private val aivenBootstrapServers:
         @Value("\${kafka.credstore.password}") credstorePassword: String,
         @Value("\${kafka.truststore.path}") truststorePath: String,
     ) = KafkaSecurityConfig(
-        mapOf(
-            SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG to keystorePath,
-            SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG to credstorePassword,
-            SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG to credstorePassword,
-            SslConfigs.SSL_KEY_PASSWORD_CONFIG to credstorePassword,
-            SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG to "JKS",
-            SslConfigs.SSL_KEYSTORE_TYPE_CONFIG to "PKCS12",
-            SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG to truststorePath,
-            CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to "SSL",
-        )
+        SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG to keystorePath,
+        SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG to credstorePassword,
+        SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG to credstorePassword,
+        SslConfigs.SSL_KEY_PASSWORD_CONFIG to credstorePassword,
+        SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG to "JKS",
+        SslConfigs.SSL_KEYSTORE_TYPE_CONFIG to "PKCS12",
+        SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG to truststorePath,
+        CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to "SSL",
     )
 }
 
-data class KafkaSecurityConfig(val config: Map<String, String>)
+class KafkaSecurityConfig(vararg input: Pair<String, Any>) {
+    internal val securityConfigs = input.toMap()
+}

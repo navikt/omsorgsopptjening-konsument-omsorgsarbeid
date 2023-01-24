@@ -24,9 +24,9 @@ class OmsorgsopptjeningMockListener {
 
     fun getRecord(waitForSeconds: Int): ConsumerRecord<String, String>? {
         var secondsPassed = 0
-        while(secondsPassed < waitForSeconds && records.size < 1){
+        while (secondsPassed < waitForSeconds && records.size < 1) {
             Thread.sleep(1000)
-            secondsPassed ++
+            secondsPassed++
         }
 
         return records.removeFirstOrNull()
