@@ -21,11 +21,11 @@ spec:
   ingresses:
     - https://omsorgsopptjening-konsument-omsorgsarbeid.dev.intern.nav.no
   liveness:
-    path: /internal/isalive
+    path: actuator/health/liveness
     port: 8080
     initialDelay: 40
   readiness:
-    path: /internal/isready
+    path: /actuator/health/readiness
     port: 8080
     initialDelay: 40
   prometheus:
