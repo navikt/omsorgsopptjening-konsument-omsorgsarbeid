@@ -17,6 +17,8 @@ spec:
       value: pensjonopptjening.omsorgsopptjening
   kafka:
     pool: nav-dev
+  secureLogs:
+    enabled: true
   image: {{ image }}
   ingresses:
     - https://omsorgsopptjening-konsument-omsorgsarbeid.dev.intern.nav.no

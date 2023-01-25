@@ -28,7 +28,7 @@ class OmsorgsarbeidListener(
         acknowledgment: Acknowledgment
     ) {
         antallLesteMeldinger.increment()
-        logger.info("Konsumerer omsorgsmelding: ${consumerRecord.key()}, ${consumerRecord.value()}")
+        SECURE_LOG.info("Konsumerer omsorgsmelding: ${consumerRecord.key()}, ${consumerRecord.value()}")
 
         convertToOmsorgsArbeid(consumerRecord.value())
         convertToOmsorgsArbeidKey(consumerRecord.key())
@@ -40,6 +40,6 @@ class OmsorgsarbeidListener(
     }
 
     companion object {
-        private val logger = LoggerFactory.getLogger(OmsorgsarbeidListener::class.java)
+        private val SECURE_LOG = LoggerFactory.getLogger("secureLog")
     }
 }
