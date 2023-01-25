@@ -34,7 +34,7 @@
             <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
         </appender>
 
-        <logger name="tjenestekall" additivity="false">
+        <logger name="secure" additivity="false">
             <appender-ref ref="secureLog" />
         </logger>
     </springProfile>
