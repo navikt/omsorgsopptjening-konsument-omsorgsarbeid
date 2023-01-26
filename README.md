@@ -5,3 +5,6 @@ på ```omsorgsopptjening```-topic.
 Formålet med appen er å fungere som et anti corruption layer mot den eksterne topicen ```omsorgsarbeid-mock-topic``` og
 den interne topicen  ```omsorgsopptjening```.
 Appen setter også i gang videre prossessering av omsorgsopptjening.
+
+## Arkitektur
+[Overordnet arkitektur omsorgsopptjening](https://confluence.adeo.no/x/Gl_qHg)
