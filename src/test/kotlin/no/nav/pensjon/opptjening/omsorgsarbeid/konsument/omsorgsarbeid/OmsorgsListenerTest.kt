@@ -1,11 +1,11 @@
 package no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid
 
+import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.OmsorgsListenerTest.Companion.OMSORGSARBEID_TOPIC
+import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.OmsorgsListenerTest.Companion.OMSORGSOPPTJENING_TOPIC
 import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.common.KafkaIntegrationTestConfig
 import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.common.OmsorgsopptjeningMockListener
 import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.App
 import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.OmsorgsarbeidListener
-import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.OmsorgsListenerTest.Companion.OMSORGSARBEID_TOPIC
-import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.OmsorgsListenerTest.Companion.OMSORGSOPPTJENING_TOPIC
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -59,14 +59,7 @@ internal class OmsorgsListenerTest {
         ar: String = "2020",
         hash: String = """2023-01-19T15:55:35.766223643"""
     ) =
-        """{
-              "omsorgsyter": {
-                "fnr": "12345678910",
-                "utbetalingsperioder": []
-              },
-              "omsorgsAr": "2005",
-              "hash": "2023-01-20T10:35:23.15820754"
-        }""".trimIndent()
+        """{"omsorgsyter":{"fnr":"$omsorgsyter","utbetalingsperioder":[{"fom":"2022-01","tom":"2022-06","omsorgsmottaker":{"fnr":"11111111111"}}]},"omsorgsAr":"$ar","hash":"$hash"}""".trimIndent()
 
 
     companion object {
