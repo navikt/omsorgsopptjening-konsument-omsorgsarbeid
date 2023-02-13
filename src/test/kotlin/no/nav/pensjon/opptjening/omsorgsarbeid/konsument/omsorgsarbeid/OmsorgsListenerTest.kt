@@ -4,8 +4,11 @@ import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.OmsorgsLi
 import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.OmsorgsListenerTest.Companion.OMSORGSOPPTJENING_TOPIC
 import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.common.KafkaIntegrationTestConfig
 import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.common.OmsorgsopptjeningMockListener
+import no.nav.pensjon.opptjening.omsorgsopptjening.felles.domene.kafka.KafkaHeaderKey
+import no.nav.pensjon.opptjening.omsorgsopptjening.felles.domene.kafka.KafkaMessageType
 import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.App
 import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.OmsorgsarbeidListener
+import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,6 +17,7 @@ import org.springframework.context.annotation.Import
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.test.EmbeddedKafkaBroker
 import org.springframework.kafka.test.context.EmbeddedKafka
+import java.nio.charset.StandardCharsets.UTF_8
 import kotlin.test.assertEquals
 
 @EmbeddedKafka(partitions = 1, topics = [OMSORGSARBEID_TOPIC, OMSORGSOPPTJENING_TOPIC])
@@ -41,9 +45,12 @@ internal class OmsorgsListenerTest {
         val record = omsorgsopptjeingListener.getRecord(20)
 
         assertNotNull(record)
-        assertEquals(omsorgsMeldingKey(), record?.key())
-        assertEquals(omsorgsMeldingValue(), record?.value())
+        assertEquals(omsorgsMeldingKey(), record!!.key())
+        assertEquals(omsorgsMeldingValue(), record.value())
+        assertEquals(KafkaMessageType.OMSORGSARBEID.name, record.getHeader(KafkaHeaderKey.MESSAGE_TYPE))
     }
+
+    fun ConsumerRecord<String, String>.getHeader(key:String ) = String(headers().headers(key).first().value(), UTF_8)
 
     fun omsorgsMeldingKey(omsorgsyter: String = "12345678910", ar: String = "2020") =
         """
