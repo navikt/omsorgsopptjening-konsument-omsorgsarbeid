@@ -50,23 +50,49 @@ internal class OmsorgsListenerTest {
         assertEquals(KafkaMessageType.OMSORGSARBEID.name, record.getHeader(KafkaHeaderKey.MESSAGE_TYPE))
     }
 
-    fun ConsumerRecord<String, String>.getHeader(key:String ) = String(headers().headers(key).first().value(), UTF_8)
+    fun ConsumerRecord<String, String>.getHeader(key: String) = String(headers().headers(key).first().value(), UTF_8)
 
     fun omsorgsMeldingKey(omsorgsyter: String = "12345678910", ar: String = "2020") =
         """
-        {
-            "omsorgsyterFnr": "12345678910",
-            "omsorgsAr": "2005"
-        }
+            {
+              "omsorgsYter": "12345678910",
+              "omsorgsAr": "2005",
+              "omsorgsType": "BARNETRYGD"
+            }
         """.trimIndent()
 
 
     fun omsorgsMeldingValue(
         omsorgsyter: String = "12345678910",
-        ar: String = "2020",
+        ar: String = "2005",
         hash: String = """2023-01-19T15:55:35.766223643"""
     ) =
-        """{"omsorgsyter":{"fnr":"$omsorgsyter","utbetalingsperioder":[{"fom":"2022-01","tom":"2022-06","omsorgsmottaker":{"fnr":"11111111111"}}]},"omsorgsAr":"$ar","hash":"$hash"}""".trimIndent()
+        """
+            {
+              "omsorgsYter": {
+                "fnr": "$omsorgsyter"
+              },
+              "omsorgsAr": "2000",
+              "omsorgstype": "BARNETRYGD",
+              "kjoreHash": "XXX",
+              "kilde": "BA",
+              "omsorgsArbeidSaker": [
+                {
+                  "omsorgsarbedUtfort": [
+                    {
+                      "omsorgsyter": {
+                        "fnr": "$omsorgsyter"
+                      },
+                      "omsorgsArbeidsUtbetalinger": {
+                        "fom": "$ar-01",
+                        "tom": "$ar-06"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+        """.trimIndent()
 
 
     companion object {

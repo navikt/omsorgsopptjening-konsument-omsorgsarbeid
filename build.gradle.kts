@@ -31,7 +31,7 @@ dependencies {
     implementation("org.springframework.kafka:spring-kafka")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
-    implementation("no.nav.pensjon.opptjening:omsorgsopptjening-domene-lib:1.0.3")
+    implementation("no.nav.pensjon.opptjening:omsorgsopptjening-domene-lib:1.0.8")
 
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
