@@ -1,8 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val logbackEncoderVersion = "7.2"
-val testcontainersVersion = "1.17.6"
+val domeneVersion = "1.0.11"
 val jacksonVersion = "2.14.1"
+val logbackEncoderVersion = "7.2"
+val springKafkaTestVersion = "3.0.4"
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.8.0"
@@ -30,17 +31,15 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.kafka:spring-kafka")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-
-    implementation("no.nav.pensjon.opptjening:omsorgsopptjening-domene-lib:1.0.11")
-
+    // Internal libraries
+    implementation("no.nav.pensjon.opptjening:omsorgsopptjening-domene-lib:$domeneVersion")
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
-
     // Log and metric
     implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("net.logstash.logback:logstash-logback-encoder:$logbackEncoderVersion")
-
-    testImplementation("org.springframework.kafka:spring-kafka-test:3.0.2")
+    // Test
+    testImplementation("org.springframework.kafka:spring-kafka-test:$springKafkaTestVersion")
     testImplementation(kotlin("test"))
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
