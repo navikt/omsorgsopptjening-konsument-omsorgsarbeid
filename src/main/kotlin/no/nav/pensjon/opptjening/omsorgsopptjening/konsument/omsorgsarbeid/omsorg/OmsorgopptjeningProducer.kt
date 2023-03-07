@@ -17,7 +17,6 @@ class OmsorgopptjeningProducer(
 ) {
 
     fun send(key: String, value: String) {
-
         val headers : List<Header> = mutableListOf(RecordHeader(MESSAGE_TYPE,KafkaMessageType.OMSORGSARBEID.name.encodeToByteArray()))
         val pr = ProducerRecord(omsorgsOpptjeningTopic, null, null, key, value, headers)
         kafkaProducer

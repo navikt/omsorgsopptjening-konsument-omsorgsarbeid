@@ -7,7 +7,6 @@ import no.nav.pensjon.opptjening.omsorgsarbeid.konsument.omsorgsarbeid.common.Om
 import no.nav.pensjon.opptjening.omsorgsopptjening.felles.domene.kafka.KafkaHeaderKey
 import no.nav.pensjon.opptjening.omsorgsopptjening.felles.domene.kafka.KafkaMessageType
 import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.App
-import no.nav.pensjon.opptjening.omsorgsopptjening.konsument.omsorgsarbeid.omsorg.OmsorgsarbeidListener
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
 import org.springframework.kafka.core.KafkaTemplate
-import org.springframework.kafka.test.EmbeddedKafkaBroker
 import org.springframework.kafka.test.context.EmbeddedKafka
 import java.nio.charset.StandardCharsets.UTF_8
 import kotlin.test.assertEquals
@@ -26,17 +24,10 @@ import kotlin.test.assertEquals
 internal class OmsorgsListenerTest {
 
     @Autowired
-    lateinit var embeddedKafka: EmbeddedKafkaBroker
-
-    @Autowired
-    lateinit var omsorgsArbeidListener: OmsorgsarbeidListener
-
-    @Autowired
     lateinit var omsorgsarbeidProducer: KafkaTemplate<String, String>
 
     @Autowired
     lateinit var omsorgsopptjeingListener: OmsorgsopptjeningMockListener
-
 
     @Test
     fun `given omsorgsarbeid event then produce omsorgsopptjening event`() {
