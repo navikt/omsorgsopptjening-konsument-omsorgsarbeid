@@ -77,7 +77,8 @@ internal class OmsorgsListenerTest {
                       "omsorgsArbeidsUtbetalinger": {
                         "fom": "$ar-01",
                         "tom": "$ar-06"
-                      }
+                      },
+                      "omsorgsmottaker":[]
                     }
                   ]
                 }
