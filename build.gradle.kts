@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val domeneVersion = "1.0.15"
+val domeneVersion = "1.0.16"
 val jacksonVersion = "2.14.1"
 val logbackEncoderVersion = "7.2"
 val springKafkaTestVersion = "3.0.4"

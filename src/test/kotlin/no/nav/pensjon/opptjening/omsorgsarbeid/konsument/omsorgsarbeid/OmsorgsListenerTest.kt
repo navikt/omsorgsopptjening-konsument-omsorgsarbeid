@@ -71,12 +71,10 @@ internal class OmsorgsListenerTest {
                 {
                   "omsorgsarbedUtfort": [
                     {
+                     "fom": "$ar-01",
+                     "tom": "$ar-06",
                       "omsorgsyter": {
                         "fnr": "$omsorgsyter"
-                      },
-                      "omsorgsArbeidsUtbetalinger": {
-                        "fom": "$ar-01",
-                        "tom": "$ar-06"
                       },
                       "omsorgsmottaker":[]
                     }
