@@ -28,7 +28,7 @@ class OmsorgsarbeidListener(
         convertToOmsorgsArbeid(consumerRecord.value())
         convertToOmsorgsArbeidKey(consumerRecord.key())
 
-        omsorgOpptjeningProducer.send(consumerRecord.key(), consumerRecord.value())
+        omsorgOpptjeningProducer.send(consumerRecord.key(), consumerRecord.value(), consumerRecord.headers())
         metric.incrementProduced()
         acknowledgment.acknowledge()
         metric.incrementConsumed()
